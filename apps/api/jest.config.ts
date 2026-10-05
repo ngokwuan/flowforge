@@ -1,4 +1,4 @@
-import type { Config } from 'jest';
+import { createDefaultEsmPreset, type JestConfigWithTsJest } from 'ts-jest';
 import { pathsToModuleNameMapper } from 'ts-jest';
 import ts from 'typescript';
 
@@ -10,14 +10,27 @@ const { config: tsconfig } = ts.readConfigFile(
 );
 const paths = tsconfig?.compilerOptions?.paths ?? {};
 
-const config: Config = {
+// @nestjs/* v12 packages ship as pure ESM ("type": "module"), so Jest must run
+// in ESM mode via --experimental-vm-modules.  createDefaultEsmPreset wires up
+// extensionsToTreatAsEsm, the ts-jest ESM transformer, and the correct preset.
+const config: JestConfigWithTsJest = {
+  ...createDefaultEsmPreset({
+    // ts-jest's transpileModule ignores "module: nodenext" and falls back to CJS;
+    // overriding to ESNext forces it to emit real ESM that Jest's vm-modules can load.
+    tsconfig: {
+      ...tsconfig?.compilerOptions,
+      module: 'ESNext',
+      moduleResolution: 'bundler',
+    },
+  }),
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '.',
   testRegex: '.*\\.spec\\.ts$',
-  transform: {
-    '^.+\\.(t|j)s$': 'ts-jest',
+  moduleNameMapper: {
+    // nodenext requires explicit .js extensions in imports; remap them to .ts
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+    ...pathsToModuleNameMapper(paths, { prefix: '<rootDir>/' }),
   },
-  moduleNameMapper: pathsToModuleNameMapper(paths, { prefix: '<rootDir>/' }),
   collectCoverageFrom: [
     'src/**/*.(t|j)s',
     'libs/**/*.(t|j)s',
