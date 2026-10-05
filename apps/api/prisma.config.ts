@@ -1,7 +1,15 @@
-import { definePrismaConfig } from "prisma/config";
+import { config } from 'dotenv';
+import { defineConfig, env } from 'prisma/config';
 
-export default definePrismaConfig({
-  skills: {
-    agents: ["claude", "cursor", "agents", "devin"],
+config({ path: '../../.env' }); // .env nằm ở root monorepo
+
+export default defineConfig({
+  schema: 'prisma/schema.prisma',
+  migrations: {
+    path: 'prisma/migrations',
+    seed: 'tsx prisma/seed.ts',
+  },
+  datasource: {
+    url: env('DATABASE_URL'),
   },
 });

@@ -3,6 +3,7 @@ packages:
   - "packages/*"
 allowBuilds:
   '@parcel/watcher': true
-  esbuild: set this to true or false
+  '@prisma/engines': false
+  esbuild: false
+  prisma: false
   unrs-resolver: true
-  workerd: set this to true or false

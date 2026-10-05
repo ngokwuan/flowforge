@@ -1,5 +1,11 @@
-// Paste these below the generator/datasource blocks that `prisma init`
-// generates in apps/api/prisma/schema.prisma.
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
 
 enum Role {
   OWNER
