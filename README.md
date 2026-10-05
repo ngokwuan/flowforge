@@ -102,7 +102,7 @@ See [`docs/adr`](docs/adr) for the reasoning behind these choices.
 | AI                 | LLM API with structured output, Zod validation                 |
 | Storage            | S3-compatible (MinIO locally)                                  |
 | Testing            | Vitest, React Testing Library, Jest, Supertest, Playwright, k6 |
-| Observability      | Pino, OpenTelemetry, Grafana                                   |
+| Observability      | Observe (`@nestjs/observe`): tracing, logs, metrics, alerts    |
 | DevOps             | Docker, Docker Compose, GitHub Actions                         |
 | Monorepo           | pnpm workspaces, Turborepo                                     |
 
@@ -165,6 +165,7 @@ Web runs on `http://localhost:3000`, API on `http://localhost:4000` (Swagger at 
 | `S3_ENDPOINT` / `S3_BUCKET` / `S3_ACCESS_KEY` / `S3_SECRET_KEY` | Object storage                                         |
 | `LLM_PROVIDER` / `LLM_API_KEY`                                  | AI provider (`mock` available for offline development) |
 | `OAUTH_GOOGLE_CLIENT_ID` / `OAUTH_GOOGLE_CLIENT_SECRET`         | OAuth2 login                                           |
+| `OBSERVE_APP_KEY` / `OBSERVE_APP_SECRET`                        | Observe credentials (sign up at observe.nestjs.com)    |
 
 ## Key design decisions
 
