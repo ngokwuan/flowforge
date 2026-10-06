@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-export const Role = z.enum(["OWNER", "EDITOR", "VIEWER"]);
+export const Role = z.enum(['OWNER', 'EDITOR', 'VIEWER']);
 export type Role = z.infer<typeof Role>;
 
 export const registerSchema = z.object({
