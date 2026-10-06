@@ -3,8 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-// import { HealthController } from './health.controller';
+import { HealthController } from './health.controller';
 import { PrismaModule } from './prisma/prisma.module';
+
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -19,10 +20,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'api',
     }),
   ],
-  controllers: [
-    AppController,
-    // HealthController
-  ],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
 export class AppModule {}
