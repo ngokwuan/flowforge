@@ -1,3 +1,4 @@
+import './load-env';
 import { NestFactory } from '@nestjs/core';
 import { AppModule, ObserveInstrument } from './app.module';
 
