@@ -1,2 +1,5 @@
 import { config } from 'dotenv';
-config({ path: '../../.env' });
+import { validateEnv } from './config/env';
+
+config({ path: '../../.env', quiet: true });
+validateEnv(process.env);
