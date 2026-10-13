@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { getLoggerConfig } from './config/logger.config';
 import { createObserveModule } from '@nestjs/observe';
 import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
@@ -36,22 +37,7 @@ const observeSecret = process.env.OBSERVE_APP_SECRET;
       : []),
     LoggerModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        const nodeEnv = config.get<string>('NODE_ENV');
-        return {
-          pinoHttp: {
-            level: nodeEnv === 'test' ? 'silent' : 'info',
-            genReqId: (req, res) => {
-              const id =
-                (req.headers['x-request-id'] as string) ?? randomUUID();
-              res.setHeader('x-request-id', id);
-              return id;
-            },
-            transport:
-              nodeEnv === 'development' ? { target: 'pino-pretty' } : undefined,
-          },
-        };
-      },
+      useFactory: getLoggerConfig,
     }),
     PrismaModule,
     AuthModule,

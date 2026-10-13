@@ -130,29 +130,23 @@ flowforge/
 
 > The commands below describe the intended workflow and will be finalized as the project is built.
 
-**Prerequisites:** Node.js 20+, pnpm, Docker
+**Prerequisites:** Node.js 24+ (see `.nvmrc`), pnpm (via Corepack), Docker
 
 ```bash
 # 1. Clone and install
 git clone https://github.com/<your-username>/flowforge.git
 cd flowforge
+corepack enable
 pnpm install
-
-# 2. Configure environment
 cp .env.example .env
 
-# 3. Start infrastructure (Postgres, Redis, MinIO)
-docker compose up -d
-
-# 4. Apply migrations and seed demo data
-pnpm --filter api prisma migrate dev
-pnpm --filter api prisma db seed
-
-# 5. Run everything
+docker compose up -d                       # Postgres, Redis
+pnpm --filter @flowforge/shared build
+pnpm --filter api exec prisma migrate dev
 pnpm dev
 ```
 
-Web runs on `http://localhost:3000`, API on `http://localhost:4000` (Swagger at `/docs`).
+Web runs on `http://localhost:4000` (health: `/health`, versioned routes under `/api/v1`).
 
 ### Environment variables
 
@@ -211,7 +205,14 @@ _To be measured and filled in with real numbers as the engine is completed._
 
 ## Roadmap
 
-- [ ] **Phase 1: Foundation.** Monorepo, auth (JWT + refresh + OAuth2), workspaces, RBAC, Prisma schema, Docker Compose
+- [ ] **Phase 1: Foundation**
+  - [x] Monorepo, Docker Compose, CI
+  - [x] Prisma schema (users, workspaces, memberships, refresh tokens)
+  - [x] Env validation, unified error format, structured logging
+  - [x] Register endpoint with e2e tests
+  - [ ] Login, refresh-token rotation, logout
+  - [ ] JWT guard and workspace RBAC
+  - [ ] OAuth2 login
 - [ ] **Phase 2: Engine core.** Workflow definition, queue, sequential execution, HTTP and If/Else nodes
 - [ ] **Phase 3: Editor.** React Flow canvas, dynamic node forms, save/load workflows
 - [ ] **Phase 4: Triggers & reliability.** Webhook and cron triggers, retry/backoff, idempotency, resume, outbox

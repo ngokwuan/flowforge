@@ -1,9 +1,9 @@
-import '../src/load-env';
+import '../src/config/load-env.config';
 import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
-import { configureApp } from '../src/configure-app';
+import { configureApp } from '../src/config/app.config';
 
 describe('Health and error format (e2e)', () => {
   let app: INestApplication;
