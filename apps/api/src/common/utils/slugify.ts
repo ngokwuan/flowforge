@@ -1,4 +1,3 @@
-// "Nguyễn Ngọc" -> "nguyen-ngoc". Falls back to "workspace" if nothing is left.
 export function slugify(input: string): string {
   const slug = input
     .normalize('NFD')

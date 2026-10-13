@@ -54,4 +54,18 @@ export class UsersService {
       throw error;
     }
   }
+
+  findForLogin(email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+      select: { id: true, email: true, name: true, passwordHash: true },
+    });
+  }
+
+  findPublicById(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: { id: true, email: true, name: true, createdAt: true },
+    });
+  }
 }
