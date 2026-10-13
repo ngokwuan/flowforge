@@ -1,4 +1,4 @@
-import './load-env';
+import './config/load-env.config';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
