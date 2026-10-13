@@ -5,7 +5,7 @@ import { createObserveModule } from '@nestjs/observe';
 import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { validateEnv } from './config/env';
+import { validateEnv } from './common/pipes/env-validation.pipe';
 import { HealthController } from './health.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';

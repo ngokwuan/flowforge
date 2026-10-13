@@ -1,8 +1,7 @@
 import { BadRequestException, PipeTransform } from '@nestjs/common';
 import type { ZodType } from 'zod';
 
-// Validates a request part against a Zod schema and returns the parsed value.
-// Failures become a 400 in the unified error format (see AllExceptionsFilter).
+//status 400 Bad Request
 export class ZodValidationPipe implements PipeTransform {
   constructor(private readonly schema: ZodType) {}
 

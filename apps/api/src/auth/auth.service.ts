@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash, verify } from '@node-rs/argon2';
 import type { LoginInput, RegisterInput } from '@flowforge/shared';
-import type { Env } from '../config/env';
+import type { Env } from '../common/pipes/env-validation.pipe';
 import { PrismaService } from '../prisma/prisma.service';
 import { UsersService } from '../users/users.service';
 import {

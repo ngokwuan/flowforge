@@ -16,7 +16,7 @@ import {
   type RegisterInput,
 } from '@flowforge/shared';
 import type { CookieOptions, Request, Response } from 'express';
-import type { Env } from '../config/env';
+import type { Env } from '../common/pipes/env-validation.pipe';
 import {
   CurrentUser,
   type AuthUser,
