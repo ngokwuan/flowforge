@@ -2,7 +2,7 @@ import './load-env';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
-import { configureApp } from './configure-app';
+import { configureApp } from './config/app.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
