@@ -49,7 +49,6 @@ export class AuthController {
   ) {
     const { accessToken, refreshToken, user } = await this.auth.login(body);
     res.cookie(REFRESH_COOKIE, refreshToken, this.cookieOptions());
-    // The refresh token travels only in the httpOnly cookie, never in the body.
     return { accessToken, user };
   }
 

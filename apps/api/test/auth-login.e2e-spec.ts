@@ -1,4 +1,4 @@
-import '../src/config/load-env';
+import '../src/config/load-env.config';
 import { randomUUID } from 'node:crypto';
 import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
@@ -66,7 +66,9 @@ describe('Login, refresh, logout, me (e2e)', () => {
   }
 
   const refreshWith = (value: string) =>
-    request(http).post('/api/v1/auth/refresh').set('Cookie', `refresh_token=${value}`);
+    request(http)
+      .post('/api/v1/auth/refresh')
+      .set('Cookie', `refresh_token=${value}`);
 
   describe('login', () => {
     it('returns an access token and sets an httpOnly refresh cookie', async () => {
@@ -171,7 +173,9 @@ describe('Login, refresh, logout, me (e2e)', () => {
     });
 
     it('rejects a missing or unknown token', async () => {
-      const missing = await request(http).post('/api/v1/auth/refresh').expect(401);
+      const missing = await request(http)
+        .post('/api/v1/auth/refresh')
+        .expect(401);
       expect(missing.body.code).toBe('AUTH_REFRESH_MISSING');
       const unknown = await refreshWith('definitely-not-a-token').expect(401);
       expect(unknown.body.code).toBe('AUTH_REFRESH_INVALID');
@@ -187,9 +191,9 @@ describe('Login, refresh, logout, me (e2e)', () => {
         .post('/api/v1/auth/logout')
         .set('Cookie', `refresh_token=${cookie.value}`)
         .expect(204);
-      expect((res.headers['set-cookie'] as unknown as string[]).join(';')).toMatch(
-        /refresh_token=;/,
-      );
+      expect(
+        (res.headers['set-cookie'] as unknown as string[]).join(';'),
+      ).toMatch(/refresh_token=;/);
 
       await refreshWith(cookie.value).expect(401);
     });
