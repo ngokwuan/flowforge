@@ -209,10 +209,10 @@ _To be measured and filled in with real numbers as the engine is completed._
   - [x] Monorepo, Docker Compose, CI
   - [x] Prisma schema (users, workspaces, memberships, refresh tokens)
   - [x] Env validation, unified error format, structured logging
-  - [x] Register endpoint with e2e tests
-  - [ ] Login, refresh-token rotation, logout
-  - [ ] JWT guard and workspace RBAC
+  - [x] Register, login, refresh-token rotation, logout
+  - [x] Workspaces with role-based access control and tenant isolation tests
   - [ ] OAuth2 login
+  - [ ] Login rate limiting
 - [ ] **Phase 2: Engine core.** Workflow definition, queue, sequential execution, HTTP and If/Else nodes
 - [ ] **Phase 3: Editor.** React Flow canvas, dynamic node forms, save/load workflows
 - [ ] **Phase 4: Triggers & reliability.** Webhook and cron triggers, retry/backoff, idempotency, resume, outbox
