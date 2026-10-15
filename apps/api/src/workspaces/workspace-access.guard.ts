@@ -27,15 +27,19 @@ export class WorkspaceAccessGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const req = context
-      .switchToHttp()
-      .getRequest<
-        Request & { user?: AuthUser; membership?: WorkspaceMembership }
-      >();
+    const req = context.switchToHttp().getRequest<
+      Request<{ workspaceId?: string }> & {
+        user?: AuthUser;
+        membership?: WorkspaceMembership;
+      }
+    >();
     const workspaceId = req.params.workspaceId;
 
     if (!req.user || !workspaceId) {
-      throw unauthorized('AUTH_UNAUTHORIZED', 'Chưa đăng nhập hoặc phiên đã hết hạn');
+      throw unauthorized(
+        'AUTH_UNAUTHORIZED',
+        'Chưa đăng nhập hoặc phiên đã hết hạn',
+      );
     }
 
     const membership = await this.prisma.membership.findUnique({
