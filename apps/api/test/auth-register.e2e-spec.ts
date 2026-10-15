@@ -7,7 +7,7 @@ import { AppModule } from '../src/app.module';
 import { configureApp } from '../src/config/app.config';
 import { PrismaService } from '../src/prisma/prisma.service';
 
-const DOMAIN = '@flowforge.test';
+const DOMAIN = `@${randomUUID()}.flowforge.test`;
 const URL = '/api/v1/auth/register';
 const uniqueEmail = () => `user-${randomUUID()}${DOMAIN}`;
 

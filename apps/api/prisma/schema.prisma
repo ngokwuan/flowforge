@@ -21,6 +21,7 @@ model User {
   createdAt     DateTime       @default(now())
   memberships   Membership[]
   refreshTokens RefreshToken[]
+  workflowsCreated Workflow[]
 }
 
 model Workspace {
@@ -29,6 +30,8 @@ model Workspace {
   slug        String       @unique
   createdAt   DateTime     @default(now())
   memberships Membership[]
+  workflows   Workflow[]
+  executions  Execution[]
 }
 
 model Membership {
@@ -58,4 +61,91 @@ model RefreshToken {
 
   @@index([userId])
   @@index([familyId])
+}
+
+enum ExecutionStatus {
+  QUEUED
+  RUNNING
+  SUCCESS
+  FAILED
+  CANCELLED
+}
+
+enum StepStatus {
+  PENDING
+  RUNNING
+  SUCCESS
+  FAILED
+  SKIPPED
+}
+
+enum TriggerType {
+  MANUAL
+  WEBHOOK
+  CRON
+}
+
+model Workflow {
+  id          String   @id @default(uuid())
+  workspaceId String
+  name        String
+  description String?
+  // Nodes and edges, validated by workflowDefinitionSchema before every save.
+  definition  Json
+  // Bumped on every save; updates carry the version they read (optimistic locking).
+  version     Int      @default(1)
+  isActive    Boolean  @default(false)
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  workspace   Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  createdBy   User?       @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  executions  Execution[]
+
+  @@index([workspaceId, updatedAt])
+}
+
+model Execution {
+  id              String          @id @default(uuid())
+  // Denormalized from the workflow so tenant-scoped queries need no join.
+  workspaceId     String
+  workflowId      String
+  workflowVersion Int
+  // Snapshot taken when the run is created: editing the workflow later must not
+  // change a run that is queued, running, or already finished.
+  definition      Json
+  status          ExecutionStatus @default(QUEUED)
+  trigger         TriggerType
+  input           Json?
+  error           String?
+  // Lets a webhook delivered twice create only one execution.
+  idempotencyKey  String?
+  queuedAt        DateTime        @default(now())
+  startedAt       DateTime?
+  finishedAt      DateTime?
+  workspace       Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workflow        Workflow        @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  steps           ExecutionStep[]
+
+  @@unique([workflowId, idempotencyKey])
+  @@index([workspaceId, queuedAt])
+  @@index([workflowId, queuedAt])
+}
+
+model ExecutionStep {
+  id          String     @id @default(uuid())
+  executionId String
+  nodeId      String
+  nodeType    String
+  status      StepStatus @default(PENDING)
+  attempt     Int        @default(0)
+  input       Json?
+  output      Json?
+  error       String?
+  startedAt   DateTime?
+  finishedAt  DateTime?
+  execution   Execution  @relation(fields: [executionId], references: [id], onDelete: Cascade)
+
+  @@unique([executionId, nodeId])
+  @@index([executionId])
 }
