@@ -58,6 +58,9 @@ export const ModelName = {
   Workspace: 'Workspace',
   Membership: 'Membership',
   RefreshToken: 'RefreshToken',
+  Workflow: 'Workflow',
+  Execution: 'Execution',
+  ExecutionStep: 'ExecutionStep',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -121,12 +124,79 @@ export const RefreshTokenScalarFieldEnum = {
 export type RefreshTokenScalarFieldEnum =
   (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum];
 
+export const WorkflowScalarFieldEnum = {
+  id: 'id',
+  workspaceId: 'workspaceId',
+  name: 'name',
+  description: 'description',
+  definition: 'definition',
+  version: 'version',
+  isActive: 'isActive',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type WorkflowScalarFieldEnum =
+  (typeof WorkflowScalarFieldEnum)[keyof typeof WorkflowScalarFieldEnum];
+
+export const ExecutionScalarFieldEnum = {
+  id: 'id',
+  workspaceId: 'workspaceId',
+  workflowId: 'workflowId',
+  workflowVersion: 'workflowVersion',
+  definition: 'definition',
+  status: 'status',
+  trigger: 'trigger',
+  input: 'input',
+  error: 'error',
+  idempotencyKey: 'idempotencyKey',
+  queuedAt: 'queuedAt',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+} as const;
+
+export type ExecutionScalarFieldEnum =
+  (typeof ExecutionScalarFieldEnum)[keyof typeof ExecutionScalarFieldEnum];
+
+export const ExecutionStepScalarFieldEnum = {
+  id: 'id',
+  executionId: 'executionId',
+  nodeId: 'nodeId',
+  nodeType: 'nodeType',
+  status: 'status',
+  attempt: 'attempt',
+  input: 'input',
+  output: 'output',
+  error: 'error',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+} as const;
+
+export type ExecutionStepScalarFieldEnum =
+  (typeof ExecutionStepScalarFieldEnum)[keyof typeof ExecutionStepScalarFieldEnum];
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc',
 } as const;
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull,
+} as const;
+
+export type JsonNullValueInput =
+  (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+} as const;
+
+export type NullableJsonNullValueInput =
+  (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
 
 export const QueryMode = {
   default: 'default',
@@ -141,3 +211,12 @@ export const NullsOrder = {
 } as const;
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull,
+} as const;
+
+export type JsonNullValueFilter =
+  (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];

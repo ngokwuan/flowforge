@@ -179,6 +179,8 @@ export type WorkspaceWhereInput = {
   slug?: Prisma.StringFilter<'Workspace'> | string;
   createdAt?: Prisma.DateTimeFilter<'Workspace'> | Date | string;
   memberships?: Prisma.MembershipListRelationFilter;
+  workflows?: Prisma.WorkflowListRelationFilter;
+  executions?: Prisma.ExecutionListRelationFilter;
 };
 
 export type WorkspaceOrderByWithRelationInput = {
@@ -187,6 +189,8 @@ export type WorkspaceOrderByWithRelationInput = {
   slug?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   memberships?: Prisma.MembershipOrderByRelationAggregateInput;
+  workflows?: Prisma.WorkflowOrderByRelationAggregateInput;
+  executions?: Prisma.ExecutionOrderByRelationAggregateInput;
 };
 
 export type WorkspaceWhereUniqueInput = Prisma.AtLeast<
@@ -199,6 +203,8 @@ export type WorkspaceWhereUniqueInput = Prisma.AtLeast<
     name?: Prisma.StringFilter<'Workspace'> | string;
     createdAt?: Prisma.DateTimeFilter<'Workspace'> | Date | string;
     memberships?: Prisma.MembershipListRelationFilter;
+    workflows?: Prisma.WorkflowListRelationFilter;
+    executions?: Prisma.ExecutionListRelationFilter;
   },
   'id' | 'slug'
 >;
@@ -233,6 +239,8 @@ export type WorkspaceCreateInput = {
   slug: string;
   createdAt?: Date | string;
   memberships?: Prisma.MembershipCreateNestedManyWithoutWorkspaceInput;
+  workflows?: Prisma.WorkflowCreateNestedManyWithoutWorkspaceInput;
+  executions?: Prisma.ExecutionCreateNestedManyWithoutWorkspaceInput;
 };
 
 export type WorkspaceUncheckedCreateInput = {
@@ -241,6 +249,8 @@ export type WorkspaceUncheckedCreateInput = {
   slug: string;
   createdAt?: Date | string;
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutWorkspaceInput;
+  workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutWorkspaceInput;
+  executions?: Prisma.ExecutionUncheckedCreateNestedManyWithoutWorkspaceInput;
 };
 
 export type WorkspaceUpdateInput = {
@@ -249,6 +259,8 @@ export type WorkspaceUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   memberships?: Prisma.MembershipUpdateManyWithoutWorkspaceNestedInput;
+  workflows?: Prisma.WorkflowUpdateManyWithoutWorkspaceNestedInput;
+  executions?: Prisma.ExecutionUpdateManyWithoutWorkspaceNestedInput;
 };
 
 export type WorkspaceUncheckedUpdateInput = {
@@ -257,6 +269,8 @@ export type WorkspaceUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutWorkspaceNestedInput;
+  workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutWorkspaceNestedInput;
+  executions?: Prisma.ExecutionUncheckedUpdateManyWithoutWorkspaceNestedInput;
 };
 
 export type WorkspaceCreateManyInput = {
@@ -332,11 +346,65 @@ export type WorkspaceUpdateOneRequiredWithoutMembershipsNestedInput = {
   >;
 };
 
+export type WorkspaceCreateNestedOneWithoutWorkflowsInput = {
+  create?: Prisma.XOR<
+    Prisma.WorkspaceCreateWithoutWorkflowsInput,
+    Prisma.WorkspaceUncheckedCreateWithoutWorkflowsInput
+  >;
+  connectOrCreate?: Prisma.WorkspaceCreateOrConnectWithoutWorkflowsInput;
+  connect?: Prisma.WorkspaceWhereUniqueInput;
+};
+
+export type WorkspaceUpdateOneRequiredWithoutWorkflowsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.WorkspaceCreateWithoutWorkflowsInput,
+    Prisma.WorkspaceUncheckedCreateWithoutWorkflowsInput
+  >;
+  connectOrCreate?: Prisma.WorkspaceCreateOrConnectWithoutWorkflowsInput;
+  upsert?: Prisma.WorkspaceUpsertWithoutWorkflowsInput;
+  connect?: Prisma.WorkspaceWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.WorkspaceUpdateToOneWithWhereWithoutWorkflowsInput,
+      Prisma.WorkspaceUpdateWithoutWorkflowsInput
+    >,
+    Prisma.WorkspaceUncheckedUpdateWithoutWorkflowsInput
+  >;
+};
+
+export type WorkspaceCreateNestedOneWithoutExecutionsInput = {
+  create?: Prisma.XOR<
+    Prisma.WorkspaceCreateWithoutExecutionsInput,
+    Prisma.WorkspaceUncheckedCreateWithoutExecutionsInput
+  >;
+  connectOrCreate?: Prisma.WorkspaceCreateOrConnectWithoutExecutionsInput;
+  connect?: Prisma.WorkspaceWhereUniqueInput;
+};
+
+export type WorkspaceUpdateOneRequiredWithoutExecutionsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.WorkspaceCreateWithoutExecutionsInput,
+    Prisma.WorkspaceUncheckedCreateWithoutExecutionsInput
+  >;
+  connectOrCreate?: Prisma.WorkspaceCreateOrConnectWithoutExecutionsInput;
+  upsert?: Prisma.WorkspaceUpsertWithoutExecutionsInput;
+  connect?: Prisma.WorkspaceWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.WorkspaceUpdateToOneWithWhereWithoutExecutionsInput,
+      Prisma.WorkspaceUpdateWithoutExecutionsInput
+    >,
+    Prisma.WorkspaceUncheckedUpdateWithoutExecutionsInput
+  >;
+};
+
 export type WorkspaceCreateWithoutMembershipsInput = {
   id?: string;
   name: string;
   slug: string;
   createdAt?: Date | string;
+  workflows?: Prisma.WorkflowCreateNestedManyWithoutWorkspaceInput;
+  executions?: Prisma.ExecutionCreateNestedManyWithoutWorkspaceInput;
 };
 
 export type WorkspaceUncheckedCreateWithoutMembershipsInput = {
@@ -344,6 +412,8 @@ export type WorkspaceUncheckedCreateWithoutMembershipsInput = {
   name: string;
   slug: string;
   createdAt?: Date | string;
+  workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutWorkspaceInput;
+  executions?: Prisma.ExecutionUncheckedCreateNestedManyWithoutWorkspaceInput;
 };
 
 export type WorkspaceCreateOrConnectWithoutMembershipsInput = {
@@ -379,6 +449,8 @@ export type WorkspaceUpdateWithoutMembershipsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  workflows?: Prisma.WorkflowUpdateManyWithoutWorkspaceNestedInput;
+  executions?: Prisma.ExecutionUpdateManyWithoutWorkspaceNestedInput;
 };
 
 export type WorkspaceUncheckedUpdateWithoutMembershipsInput = {
@@ -386,6 +458,136 @@ export type WorkspaceUncheckedUpdateWithoutMembershipsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   slug?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutWorkspaceNestedInput;
+  executions?: Prisma.ExecutionUncheckedUpdateManyWithoutWorkspaceNestedInput;
+};
+
+export type WorkspaceCreateWithoutWorkflowsInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  createdAt?: Date | string;
+  memberships?: Prisma.MembershipCreateNestedManyWithoutWorkspaceInput;
+  executions?: Prisma.ExecutionCreateNestedManyWithoutWorkspaceInput;
+};
+
+export type WorkspaceUncheckedCreateWithoutWorkflowsInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  createdAt?: Date | string;
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutWorkspaceInput;
+  executions?: Prisma.ExecutionUncheckedCreateNestedManyWithoutWorkspaceInput;
+};
+
+export type WorkspaceCreateOrConnectWithoutWorkflowsInput = {
+  where: Prisma.WorkspaceWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.WorkspaceCreateWithoutWorkflowsInput,
+    Prisma.WorkspaceUncheckedCreateWithoutWorkflowsInput
+  >;
+};
+
+export type WorkspaceUpsertWithoutWorkflowsInput = {
+  update: Prisma.XOR<
+    Prisma.WorkspaceUpdateWithoutWorkflowsInput,
+    Prisma.WorkspaceUncheckedUpdateWithoutWorkflowsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.WorkspaceCreateWithoutWorkflowsInput,
+    Prisma.WorkspaceUncheckedCreateWithoutWorkflowsInput
+  >;
+  where?: Prisma.WorkspaceWhereInput;
+};
+
+export type WorkspaceUpdateToOneWithWhereWithoutWorkflowsInput = {
+  where?: Prisma.WorkspaceWhereInput;
+  data: Prisma.XOR<
+    Prisma.WorkspaceUpdateWithoutWorkflowsInput,
+    Prisma.WorkspaceUncheckedUpdateWithoutWorkflowsInput
+  >;
+};
+
+export type WorkspaceUpdateWithoutWorkflowsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  memberships?: Prisma.MembershipUpdateManyWithoutWorkspaceNestedInput;
+  executions?: Prisma.ExecutionUpdateManyWithoutWorkspaceNestedInput;
+};
+
+export type WorkspaceUncheckedUpdateWithoutWorkflowsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutWorkspaceNestedInput;
+  executions?: Prisma.ExecutionUncheckedUpdateManyWithoutWorkspaceNestedInput;
+};
+
+export type WorkspaceCreateWithoutExecutionsInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  createdAt?: Date | string;
+  memberships?: Prisma.MembershipCreateNestedManyWithoutWorkspaceInput;
+  workflows?: Prisma.WorkflowCreateNestedManyWithoutWorkspaceInput;
+};
+
+export type WorkspaceUncheckedCreateWithoutExecutionsInput = {
+  id?: string;
+  name: string;
+  slug: string;
+  createdAt?: Date | string;
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutWorkspaceInput;
+  workflows?: Prisma.WorkflowUncheckedCreateNestedManyWithoutWorkspaceInput;
+};
+
+export type WorkspaceCreateOrConnectWithoutExecutionsInput = {
+  where: Prisma.WorkspaceWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.WorkspaceCreateWithoutExecutionsInput,
+    Prisma.WorkspaceUncheckedCreateWithoutExecutionsInput
+  >;
+};
+
+export type WorkspaceUpsertWithoutExecutionsInput = {
+  update: Prisma.XOR<
+    Prisma.WorkspaceUpdateWithoutExecutionsInput,
+    Prisma.WorkspaceUncheckedUpdateWithoutExecutionsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.WorkspaceCreateWithoutExecutionsInput,
+    Prisma.WorkspaceUncheckedCreateWithoutExecutionsInput
+  >;
+  where?: Prisma.WorkspaceWhereInput;
+};
+
+export type WorkspaceUpdateToOneWithWhereWithoutExecutionsInput = {
+  where?: Prisma.WorkspaceWhereInput;
+  data: Prisma.XOR<
+    Prisma.WorkspaceUpdateWithoutExecutionsInput,
+    Prisma.WorkspaceUncheckedUpdateWithoutExecutionsInput
+  >;
+};
+
+export type WorkspaceUpdateWithoutExecutionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  memberships?: Prisma.MembershipUpdateManyWithoutWorkspaceNestedInput;
+  workflows?: Prisma.WorkflowUpdateManyWithoutWorkspaceNestedInput;
+};
+
+export type WorkspaceUncheckedUpdateWithoutExecutionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  slug?: Prisma.StringFieldUpdateOperationsInput | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutWorkspaceNestedInput;
+  workflows?: Prisma.WorkflowUncheckedUpdateManyWithoutWorkspaceNestedInput;
 };
 
 /**
@@ -394,6 +596,8 @@ export type WorkspaceUncheckedUpdateWithoutMembershipsInput = {
 
 export type WorkspaceCountOutputType = {
   memberships: number;
+  workflows: number;
+  executions: number;
 };
 
 export type WorkspaceCountOutputTypeSelect<
@@ -401,6 +605,8 @@ export type WorkspaceCountOutputTypeSelect<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   memberships?: boolean | WorkspaceCountOutputTypeCountMembershipsArgs;
+  workflows?: boolean | WorkspaceCountOutputTypeCountWorkflowsArgs;
+  executions?: boolean | WorkspaceCountOutputTypeCountExecutionsArgs;
 };
 
 /**
@@ -426,6 +632,26 @@ export type WorkspaceCountOutputTypeCountMembershipsArgs<
   where?: Prisma.MembershipWhereInput;
 };
 
+/**
+ * WorkspaceCountOutputType without action
+ */
+export type WorkspaceCountOutputTypeCountWorkflowsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.WorkflowWhereInput;
+};
+
+/**
+ * WorkspaceCountOutputType without action
+ */
+export type WorkspaceCountOutputTypeCountExecutionsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.ExecutionWhereInput;
+};
+
 export type WorkspaceSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -436,6 +662,8 @@ export type WorkspaceSelect<
     slug?: boolean;
     createdAt?: boolean;
     memberships?: boolean | Prisma.Workspace$membershipsArgs<ExtArgs>;
+    workflows?: boolean | Prisma.Workspace$workflowsArgs<ExtArgs>;
+    executions?: boolean | Prisma.Workspace$executionsArgs<ExtArgs>;
     _count?: boolean | Prisma.WorkspaceCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['workspace']
@@ -486,6 +714,8 @@ export type WorkspaceInclude<
     runtime.Types.Extensions.DefaultArgs,
 > = {
   memberships?: boolean | Prisma.Workspace$membershipsArgs<ExtArgs>;
+  workflows?: boolean | Prisma.Workspace$workflowsArgs<ExtArgs>;
+  executions?: boolean | Prisma.Workspace$executionsArgs<ExtArgs>;
   _count?: boolean | Prisma.WorkspaceCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type WorkspaceIncludeCreateManyAndReturn<
@@ -504,6 +734,8 @@ export type $WorkspacePayload<
   name: 'Workspace';
   objects: {
     memberships: Prisma.$MembershipPayload<ExtArgs>[];
+    workflows: Prisma.$WorkflowPayload<ExtArgs>[];
+    executions: Prisma.$ExecutionPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1072,6 +1304,28 @@ export interface Prisma__WorkspaceClient<
       >
     | Null
   >;
+  workflows<T extends Prisma.Workspace$workflowsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Workspace$workflowsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$WorkflowPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  executions<T extends Prisma.Workspace$executionsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Workspace$executionsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$ExecutionPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1600,6 +1854,65 @@ export type Workspace$membershipsArgs<
   skip?: number;
   distinct?:
     Prisma.MembershipScalarFieldEnum | Prisma.MembershipScalarFieldEnum[];
+};
+
+/**
+ * Workspace.workflows
+ */
+export type Workspace$workflowsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Workflow
+   */
+  select?: Prisma.WorkflowSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Workflow
+   */
+  omit?: Prisma.WorkflowOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkflowInclude<ExtArgs> | null;
+  where?: Prisma.WorkflowWhereInput;
+  orderBy?:
+    | Prisma.WorkflowOrderByWithRelationInput
+    | Prisma.WorkflowOrderByWithRelationInput[];
+  cursor?: Prisma.WorkflowWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.WorkflowScalarFieldEnum | Prisma.WorkflowScalarFieldEnum[];
+};
+
+/**
+ * Workspace.executions
+ */
+export type Workspace$executionsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Execution
+   */
+  select?: Prisma.ExecutionSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Execution
+   */
+  omit?: Prisma.ExecutionOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExecutionInclude<ExtArgs> | null;
+  where?: Prisma.ExecutionWhereInput;
+  orderBy?:
+    | Prisma.ExecutionOrderByWithRelationInput
+    | Prisma.ExecutionOrderByWithRelationInput[];
+  cursor?: Prisma.ExecutionWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?:
+    Prisma.ExecutionScalarFieldEnum | Prisma.ExecutionScalarFieldEnum[];
 };
 
 /**

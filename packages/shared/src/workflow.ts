@@ -15,9 +15,7 @@ export const workflowNodeSchema = z.object({
   type: z.string().min(1).max(100), // e.g. "http.request", "logic.if"
   name: z.string().trim().min(1).max(100),
   config: z.record(z.string(), z.unknown()).default({}),
-  position: z
-    .object({ x: z.number(), y: z.number() })
-    .default({ x: 0, y: 0 }),
+  position: z.object({ x: z.number(), y: z.number() }).default({ x: 0, y: 0 }),
 });
 
 export const workflowEdgeSchema = z.object({
@@ -94,10 +92,7 @@ export function topologicalOrder(
   return order.length === def.nodes.length ? order : null;
 }
 
-function reachableFrom(
-  startId: string,
-  edges: WorkflowEdge[],
-): Set<string> {
+function reachableFrom(startId: string, edges: WorkflowEdge[]): Set<string> {
   const outgoing = new Map<string, string[]>();
   for (const edge of edges) {
     const list = outgoing.get(edge.source) ?? [];

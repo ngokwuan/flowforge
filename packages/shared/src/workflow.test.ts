@@ -28,7 +28,10 @@ const codes = (d: WorkflowDefinition) =>
 
 describe('validateWorkflowGraph', () => {
   it('accepts a valid linear workflow', () => {
-    const d = def([trigger(), node('a'), node('b')], [edge('t', 'a'), edge('a', 'b')]);
+    const d = def(
+      [trigger(), node('a'), node('b')],
+      [edge('t', 'a'), edge('a', 'b')],
+    );
     expect(validateWorkflowGraph(d)).toEqual([]);
   });
 
@@ -131,7 +134,9 @@ describe('workflowDefinitionSchema', () => {
   });
 
   it('rejects an empty node list', () => {
-    expect(workflowDefinitionSchema.safeParse({ nodes: [], edges: [] }).success).toBe(false);
+    expect(
+      workflowDefinitionSchema.safeParse({ nodes: [], edges: [] }).success,
+    ).toBe(false);
   });
 });
 
@@ -144,7 +149,13 @@ describe('topologicalOrder', () => {
   it('puts every node after all of its predecessors', () => {
     const d = def(
       [node('e'), node('d'), node('c'), node('b'), node('a')],
-      [edge('a', 'b'), edge('a', 'c'), edge('b', 'd'), edge('c', 'd'), edge('d', 'e')],
+      [
+        edge('a', 'b'),
+        edge('a', 'c'),
+        edge('b', 'd'),
+        edge('c', 'd'),
+        edge('d', 'e'),
+      ],
     );
     const order = topologicalOrder(d)!;
     expect(order).toHaveLength(5);

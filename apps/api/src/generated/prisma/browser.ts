@@ -36,3 +36,18 @@ export type Membership = Prisma.MembershipModel;
  *
  */
 export type RefreshToken = Prisma.RefreshTokenModel;
+/**
+ * Model Workflow
+ *
+ */
+export type Workflow = Prisma.WorkflowModel;
+/**
+ * Model Execution
+ *
+ */
+export type Execution = Prisma.ExecutionModel;
+/**
+ * Model ExecutionStep
+ *
+ */
+export type ExecutionStep = Prisma.ExecutionStepModel;
