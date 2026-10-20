@@ -11,4 +11,7 @@ export type * from './models/User.js';
 export type * from './models/Workspace.js';
 export type * from './models/Membership.js';
 export type * from './models/RefreshToken.js';
+export type * from './models/Workflow.js';
+export type * from './models/Execution.js';
+export type * from './models/ExecutionStep.js';
 export type * from './commonInputTypes.js';

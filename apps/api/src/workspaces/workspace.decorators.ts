@@ -1,4 +1,8 @@
-import { createParamDecorator, ExecutionContext, SetMetadata } from '@nestjs/common';
+import {
+  createParamDecorator,
+  ExecutionContext,
+  SetMetadata,
+} from '@nestjs/common';
 import type { Role } from '@flowforge/shared';
 import { REQUIRED_ROLE_KEY, type WorkspaceMembership } from './workspace-roles';
 

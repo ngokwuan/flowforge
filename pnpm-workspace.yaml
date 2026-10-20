@@ -1,10 +1,11 @@
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
 allowBuilds:
   '@parcel/watcher': true
   '@prisma/engines': false
   argon2: true
   esbuild: false
+  msgpackr-extract: false
   prisma: false
   unrs-resolver: true

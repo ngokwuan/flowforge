@@ -8,6 +8,7 @@ const envSchema = z
     PORT: z.coerce.number().int().positive().default(4000),
     WEB_ORIGIN: z.string().url().default('http://localhost:3000'),
     DATABASE_URL: z.string().url(),
+    REDIS_URL: z.string().url(),
     JWT_ACCESS_SECRET: z.string().min(16),
     JWT_REFRESH_SECRET: z.string().min(16),
     OBSERVE_APP_KEY: z.string().min(1).optional(),

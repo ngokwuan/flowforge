@@ -11,6 +11,9 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
+import { WorkflowsModule } from './workflows/workflows.module';
+import { QueueModule } from './queue/queue.module';
+import { ExecutionsModule } from './executions/executions.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -42,6 +45,9 @@ const observeSecret = process.env.OBSERVE_APP_SECRET;
     AuthModule,
     UsersModule,
     WorkspacesModule,
+    WorkflowsModule,
+    QueueModule,
+    ExecutionsModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

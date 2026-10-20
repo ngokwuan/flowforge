@@ -15,3 +15,32 @@ export const Role = {
 } as const;
 
 export type Role = (typeof Role)[keyof typeof Role];
+
+export const ExecutionStatus = {
+  QUEUED: 'QUEUED',
+  RUNNING: 'RUNNING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED',
+} as const;
+
+export type ExecutionStatus =
+  (typeof ExecutionStatus)[keyof typeof ExecutionStatus];
+
+export const StepStatus = {
+  PENDING: 'PENDING',
+  RUNNING: 'RUNNING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  SKIPPED: 'SKIPPED',
+} as const;
+
+export type StepStatus = (typeof StepStatus)[keyof typeof StepStatus];
+
+export const TriggerType = {
+  MANUAL: 'MANUAL',
+  WEBHOOK: 'WEBHOOK',
+  CRON: 'CRON',
+} as const;
+
+export type TriggerType = (typeof TriggerType)[keyof typeof TriggerType];

@@ -187,6 +187,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   memberships?: Prisma.MembershipListRelationFilter;
   refreshTokens?: Prisma.RefreshTokenListRelationFilter;
+  workflowsCreated?: Prisma.WorkflowListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -197,6 +198,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder;
   memberships?: Prisma.MembershipOrderByRelationAggregateInput;
   refreshTokens?: Prisma.RefreshTokenOrderByRelationAggregateInput;
+  workflowsCreated?: Prisma.WorkflowOrderByRelationAggregateInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -211,6 +213,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     createdAt?: Prisma.DateTimeFilter<'User'> | Date | string;
     memberships?: Prisma.MembershipListRelationFilter;
     refreshTokens?: Prisma.RefreshTokenListRelationFilter;
+    workflowsCreated?: Prisma.WorkflowListRelationFilter;
   },
   'id' | 'email'
 >;
@@ -250,6 +253,7 @@ export type UserCreateInput = {
   createdAt?: Date | string;
   memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
+  workflowsCreated?: Prisma.WorkflowCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -260,6 +264,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string;
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
+  workflowsCreated?: Prisma.WorkflowUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUpdateInput = {
@@ -271,6 +276,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
+  workflowsCreated?: Prisma.WorkflowUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -282,6 +288,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
+  workflowsCreated?: Prisma.WorkflowUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -337,6 +344,11 @@ export type UserMinOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput;
   isNot?: Prisma.UserWhereInput;
+};
+
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null;
+  isNot?: Prisma.UserWhereInput | null;
 };
 
 export type StringFieldUpdateOperationsInput = {
@@ -403,6 +415,34 @@ export type UserUpdateOneRequiredWithoutRefreshTokensNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutWorkflowsCreatedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutWorkflowsCreatedInput,
+    Prisma.UserUncheckedCreateWithoutWorkflowsCreatedInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkflowsCreatedInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneWithoutWorkflowsCreatedNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutWorkflowsCreatedInput,
+    Prisma.UserUncheckedCreateWithoutWorkflowsCreatedInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWorkflowsCreatedInput;
+  upsert?: Prisma.UserUpsertWithoutWorkflowsCreatedInput;
+  disconnect?: Prisma.UserWhereInput | boolean;
+  delete?: Prisma.UserWhereInput | boolean;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutWorkflowsCreatedInput,
+      Prisma.UserUpdateWithoutWorkflowsCreatedInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutWorkflowsCreatedInput
+  >;
+};
+
 export type UserCreateWithoutMembershipsInput = {
   id?: string;
   email: string;
@@ -410,6 +450,7 @@ export type UserCreateWithoutMembershipsInput = {
   name: string;
   createdAt?: Date | string;
   refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
+  workflowsCreated?: Prisma.WorkflowCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutMembershipsInput = {
@@ -419,6 +460,7 @@ export type UserUncheckedCreateWithoutMembershipsInput = {
   name: string;
   createdAt?: Date | string;
   refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
+  workflowsCreated?: Prisma.WorkflowUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutMembershipsInput = {
@@ -457,6 +499,7 @@ export type UserUpdateWithoutMembershipsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
+  workflowsCreated?: Prisma.WorkflowUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutMembershipsInput = {
@@ -467,6 +510,7 @@ export type UserUncheckedUpdateWithoutMembershipsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
+  workflowsCreated?: Prisma.WorkflowUncheckedUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserCreateWithoutRefreshTokensInput = {
@@ -476,6 +520,7 @@ export type UserCreateWithoutRefreshTokensInput = {
   name: string;
   createdAt?: Date | string;
   memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
+  workflowsCreated?: Prisma.WorkflowCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserUncheckedCreateWithoutRefreshTokensInput = {
@@ -485,6 +530,7 @@ export type UserUncheckedCreateWithoutRefreshTokensInput = {
   name: string;
   createdAt?: Date | string;
   memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
+  workflowsCreated?: Prisma.WorkflowUncheckedCreateNestedManyWithoutCreatedByInput;
 };
 
 export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -523,6 +569,7 @@ export type UserUpdateWithoutRefreshTokensInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
+  workflowsCreated?: Prisma.WorkflowUpdateManyWithoutCreatedByNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutRefreshTokensInput = {
@@ -533,6 +580,77 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
+  workflowsCreated?: Prisma.WorkflowUncheckedUpdateManyWithoutCreatedByNestedInput;
+};
+
+export type UserCreateWithoutWorkflowsCreatedInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  createdAt?: Date | string;
+  memberships?: Prisma.MembershipCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenCreateNestedManyWithoutUserInput;
+};
+
+export type UserUncheckedCreateWithoutWorkflowsCreatedInput = {
+  id?: string;
+  email: string;
+  passwordHash?: string | null;
+  name: string;
+  createdAt?: Date | string;
+  memberships?: Prisma.MembershipUncheckedCreateNestedManyWithoutUserInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedCreateNestedManyWithoutUserInput;
+};
+
+export type UserCreateOrConnectWithoutWorkflowsCreatedInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutWorkflowsCreatedInput,
+    Prisma.UserUncheckedCreateWithoutWorkflowsCreatedInput
+  >;
+};
+
+export type UserUpsertWithoutWorkflowsCreatedInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutWorkflowsCreatedInput,
+    Prisma.UserUncheckedUpdateWithoutWorkflowsCreatedInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutWorkflowsCreatedInput,
+    Prisma.UserUncheckedCreateWithoutWorkflowsCreatedInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutWorkflowsCreatedInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutWorkflowsCreatedInput,
+    Prisma.UserUncheckedUpdateWithoutWorkflowsCreatedInput
+  >;
+};
+
+export type UserUpdateWithoutWorkflowsCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  memberships?: Prisma.MembershipUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUpdateManyWithoutUserNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutWorkflowsCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  passwordHash?:
+    Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  memberships?: Prisma.MembershipUncheckedUpdateManyWithoutUserNestedInput;
+  refreshTokens?: Prisma.RefreshTokenUncheckedUpdateManyWithoutUserNestedInput;
 };
 
 /**
@@ -542,6 +660,7 @@ export type UserUncheckedUpdateWithoutRefreshTokensInput = {
 export type UserCountOutputType = {
   memberships: number;
   refreshTokens: number;
+  workflowsCreated: number;
 };
 
 export type UserCountOutputTypeSelect<
@@ -550,6 +669,7 @@ export type UserCountOutputTypeSelect<
 > = {
   memberships?: boolean | UserCountOutputTypeCountMembershipsArgs;
   refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs;
+  workflowsCreated?: boolean | UserCountOutputTypeCountWorkflowsCreatedArgs;
 };
 
 /**
@@ -585,6 +705,16 @@ export type UserCountOutputTypeCountRefreshTokensArgs<
   where?: Prisma.RefreshTokenWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWorkflowsCreatedArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.WorkflowWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs =
     runtime.Types.Extensions.DefaultArgs,
@@ -597,6 +727,7 @@ export type UserSelect<
     createdAt?: boolean;
     memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>;
     refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>;
+    workflowsCreated?: boolean | Prisma.User$workflowsCreatedArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -651,6 +782,7 @@ export type UserInclude<
 > = {
   memberships?: boolean | Prisma.User$membershipsArgs<ExtArgs>;
   refreshTokens?: boolean | Prisma.User$refreshTokensArgs<ExtArgs>;
+  workflowsCreated?: boolean | Prisma.User$workflowsCreatedArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -670,6 +802,7 @@ export type $UserPayload<
   objects: {
     memberships: Prisma.$MembershipPayload<ExtArgs>[];
     refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[];
+    workflowsCreated: Prisma.$WorkflowPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1250,6 +1383,17 @@ export interface Prisma__UserClient<
       >
     | Null
   >;
+  workflowsCreated<T extends Prisma.User$workflowsCreatedArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$workflowsCreatedArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$WorkflowPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1791,6 +1935,35 @@ export type User$refreshTokensArgs<
   skip?: number;
   distinct?:
     Prisma.RefreshTokenScalarFieldEnum | Prisma.RefreshTokenScalarFieldEnum[];
+};
+
+/**
+ * User.workflowsCreated
+ */
+export type User$workflowsCreatedArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs =
+    runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Workflow
+   */
+  select?: Prisma.WorkflowSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Workflow
+   */
+  omit?: Prisma.WorkflowOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkflowInclude<ExtArgs> | null;
+  where?: Prisma.WorkflowWhereInput;
+  orderBy?:
+    | Prisma.WorkflowOrderByWithRelationInput
+    | Prisma.WorkflowOrderByWithRelationInput[];
+  cursor?: Prisma.WorkflowWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.WorkflowScalarFieldEnum | Prisma.WorkflowScalarFieldEnum[];
 };
 
 /**
