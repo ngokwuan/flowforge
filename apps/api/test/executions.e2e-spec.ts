@@ -161,7 +161,7 @@ describe('Executions and queue (e2e)', () => {
       id: 'extra',
       type: 'http.request',
       name: 'Extra',
-      config: {},
+      config: { url: 'https://example.com/extra' },
     });
     changed.edges.push({ id: 'e2', source: 'call', target: 'extra' });
     await patch(alice, wfUrl(aliceWs, id))
