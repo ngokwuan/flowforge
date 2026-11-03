@@ -59,3 +59,4 @@ export class ThrottlerRedisStore implements ThrottlerStorage, OnModuleDestroy {
     await this.client.quit();
   }
 }
+

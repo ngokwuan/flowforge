@@ -26,3 +26,4 @@ import { ThrottlerRedisStore } from './throttler-redis.store';
   exports: [ThrottlerModule, ThrottlerRedisStore],
 })
 export class ThrottlerConfigModule {}
+

@@ -30,3 +30,4 @@ can brute-force passwords indefinitely. The API already depends on Redis
   reset the counter between runs or (preferred) run against a test app instance
   that uses an in-memory throttler store.
 - A future improvement can add per-account lockout on top of per-IP throttling.
+

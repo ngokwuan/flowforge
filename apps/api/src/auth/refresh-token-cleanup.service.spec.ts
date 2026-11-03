@@ -62,3 +62,4 @@ describe('RefreshTokenCleanupService', () => {
     expect(prisma.refreshToken.deleteMany).toHaveBeenCalledTimes(2);
   });
 });
+

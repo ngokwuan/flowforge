@@ -28,3 +28,4 @@ export default async function globalTeardown() {
   await adminClient.query(`DROP DATABASE IF EXISTS "${dbName}"`);
   await adminClient.end();
 }
+
