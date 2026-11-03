@@ -8,6 +8,7 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { SkipThrottle, Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { ConfigService } from '@nestjs/config';
 import {
   loginSchema,
@@ -28,6 +29,10 @@ import { AuthService } from './auth.service';
 
 const COOKIE_PATH = '/api/v1/auth';
 
+// 5 attempts per 60 s for login and register to limit brute-force attacks.
+// Other auth endpoints (refresh, logout, me) are not rate-limited here.
+@Throttle({ auth: { ttl: 60_000, limit: 5 } })
+@UseGuards(ThrottlerGuard)
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -52,6 +57,7 @@ export class AuthController {
     return { accessToken, user };
   }
 
+  @SkipThrottle()
   @Post('refresh')
   @HttpCode(200)
   async refresh(
@@ -65,6 +71,7 @@ export class AuthController {
     return { accessToken };
   }
 
+  @SkipThrottle()
   @Post('logout')
   @HttpCode(204)
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
@@ -72,6 +79,7 @@ export class AuthController {
     res.clearCookie(REFRESH_COOKIE, { path: COOKIE_PATH });
   }
 
+  @SkipThrottle()
   @Get('me')
   @UseGuards(JwtAuthGuard)
   me(@CurrentUser() user: AuthUser) {
