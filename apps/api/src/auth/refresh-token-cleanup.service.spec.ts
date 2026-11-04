@@ -47,7 +47,9 @@ describe('RefreshTokenCleanupService', () => {
   it('runs multiple batches until empty', async () => {
     // Simulate exactly BATCH_SIZE rows in first batch, then 1, then empty
     const batchSize = (RefreshTokenCleanupService as any).BATCH_SIZE as number;
-    const firstBatch = Array.from({ length: batchSize }, (_, i) => ({ id: `${i}` }));
+    const firstBatch = Array.from({ length: batchSize }, (_, i) => ({
+      id: `${i}`,
+    }));
     const secondBatch = [{ id: 'last' }];
 
     prisma.refreshToken.findMany
@@ -62,4 +64,3 @@ describe('RefreshTokenCleanupService', () => {
     expect(prisma.refreshToken.deleteMany).toHaveBeenCalledTimes(2);
   });
 });
-

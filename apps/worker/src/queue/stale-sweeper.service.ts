@@ -1,4 +1,10 @@
-import { Inject, Injectable, Logger, OnApplicationShutdown, OnModuleInit } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  OnApplicationShutdown,
+  OnModuleInit,
+} from '@nestjs/common';
 import { Queue } from 'bullmq';
 import {
   EXECUTIONS_QUEUE_NAME,
@@ -33,7 +39,9 @@ export class StaleSweeper implements OnModuleInit, OnApplicationShutdown {
         removeOnFail: { age: 7 * 24 * 60 * 60 },
       },
     });
-    this.queue.on('error', (error) => this.logger.error(`Queue error: ${error.message}`));
+    this.queue.on('error', (error) =>
+      this.logger.error(`Queue error: ${error.message}`),
+    );
 
     this.timer = setInterval(() => {
       this.sweepOnce().catch((error: Error) =>
@@ -72,7 +80,8 @@ export class StaleSweeper implements OnModuleInit, OnApplicationShutdown {
           { jobId: execution.id },
         );
       }
-      if (stale.length > 0) this.logger.warn(`Republished ${stale.length} stale execution(s)`);
+      if (stale.length > 0)
+        this.logger.warn(`Republished ${stale.length} stale execution(s)`);
       return stale.length;
     } finally {
       this.sweeping = false;

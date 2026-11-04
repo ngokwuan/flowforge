@@ -1,4 +1,10 @@
-import { Inject, Injectable, Logger, OnApplicationShutdown, OnModuleInit } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  OnApplicationShutdown,
+  OnModuleInit,
+} from '@nestjs/common';
 import { Worker, type Job } from 'bullmq';
 import { z } from 'zod';
 import { runExecution } from '@flowforge/engine';
@@ -38,7 +44,9 @@ export class ExecutionsWorker implements OnModuleInit, OnApplicationShutdown {
       },
     );
     // Without listeners a Redis problem would go unnoticed.
-    this.worker.on('error', (error) => this.logger.error(`Worker error: ${error.message}`));
+    this.worker.on('error', (error) =>
+      this.logger.error(`Worker error: ${error.message}`),
+    );
     this.worker.on('failed', (job, error) =>
       this.logger.error(`Job ${job?.id ?? '?'} failed: ${error.message}`),
     );
@@ -56,7 +64,10 @@ export class ExecutionsWorker implements OnModuleInit, OnApplicationShutdown {
         signal: controller.signal,
         logger: {
           error: (message, detail) =>
-            this.logger.error(message, detail instanceof Error ? detail.stack : String(detail)),
+            this.logger.error(
+              message,
+              detail instanceof Error ? detail.stack : String(detail),
+            ),
         },
       });
       this.logger.log(`Execution ${executionId}: ${outcome}`);

@@ -49,7 +49,9 @@ export class ThrottlerRedisStore implements ThrottlerStorage, OnModuleDestroy {
 
     return {
       totalHits,
-      timeToExpire: Math.ceil((remainingTtlMs > 0 ? remainingTtlMs : ttl) / 1000),
+      timeToExpire: Math.ceil(
+        (remainingTtlMs > 0 ? remainingTtlMs : ttl) / 1000,
+      ),
       isBlocked: false,
       timeToBlockExpire: 0,
     };
@@ -59,4 +61,3 @@ export class ThrottlerRedisStore implements ThrottlerStorage, OnModuleDestroy {
     await this.client.quit();
   }
 }
-

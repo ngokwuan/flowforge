@@ -28,10 +28,7 @@ export class RefreshTokenCleanupService {
     while (true) {
       const batch = await this.prisma.refreshToken.findMany({
         where: {
-          OR: [
-            { expiresAt: { lte: now } },
-            { revokedAt: { not: null } },
-          ],
+          OR: [{ expiresAt: { lte: now } }, { revokedAt: { not: null } }],
         },
         select: { id: true },
         take: RefreshTokenCleanupService.BATCH_SIZE,
@@ -50,4 +47,3 @@ export class RefreshTokenCleanupService {
     this.logger.log(`RefreshToken cleanup done – deleted ${totalDeleted} rows`);
   }
 }
-

@@ -16,7 +16,10 @@ import { ThrottlerRedisStore } from './throttler-redis.store';
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService, ThrottlerRedisStore],
-      useFactory: (_config: ConfigService<Env, true>, store: ThrottlerRedisStore) => ({
+      useFactory: (
+        _config: ConfigService<Env, true>,
+        store: ThrottlerRedisStore,
+      ) => ({
         throttlers: [{ name: 'auth', ttl: 60_000, limit: 10 }],
         storage: store,
       }),
@@ -26,4 +29,3 @@ import { ThrottlerRedisStore } from './throttler-redis.store';
   exports: [ThrottlerModule, ThrottlerRedisStore],
 })
 export class ThrottlerConfigModule {}
-

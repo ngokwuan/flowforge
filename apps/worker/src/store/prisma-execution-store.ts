@@ -1,5 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { ClaimedExecution, ExecutionStore, FinalStatus, StepFinish } from '@flowforge/engine';
+import type {
+  ClaimedExecution,
+  ExecutionStore,
+  FinalStatus,
+  StepFinish,
+} from '@flowforge/engine';
 import type { WorkflowDefinition } from '@flowforge/shared';
 import { Prisma } from '../generated/prisma/client.js';
 import { PrismaService } from '../prisma/prisma.service.js';
@@ -36,9 +41,16 @@ export class PrismaExecutionStore implements ExecutionStore {
     };
   }
 
-  async initSteps(executionId: string, nodes: Array<{ id: string; type: string }>) {
+  async initSteps(
+    executionId: string,
+    nodes: Array<{ id: string; type: string }>,
+  ) {
     await this.prisma.executionStep.createMany({
-      data: nodes.map((node) => ({ executionId, nodeId: node.id, nodeType: node.type })),
+      data: nodes.map((node) => ({
+        executionId,
+        nodeId: node.id,
+        nodeType: node.type,
+      })),
       skipDuplicates: true, // makes starting a step list safe to repeat
     });
   }

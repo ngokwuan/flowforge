@@ -8,7 +8,10 @@ import { ThrottlerStorageRecord } from '@nestjs/throttler/dist/throttler-storage
  */
 @Injectable()
 export class ThrottlerMemoryStore implements ThrottlerStorage {
-  private readonly store = new Map<string, { hits: number; expiresAt: number }>();
+  private readonly store = new Map<
+    string,
+    { hits: number; expiresAt: number }
+  >();
 
   async increment(
     key: string,
@@ -22,12 +25,21 @@ export class ThrottlerMemoryStore implements ThrottlerStorage {
 
     if (!entry || entry.expiresAt <= now) {
       this.store.set(key, { hits: 1, expiresAt: now + ttl });
-      return { totalHits: 1, timeToExpire: Math.ceil(ttl / 1000), isBlocked: false, timeToBlockExpire: 0 };
+      return {
+        totalHits: 1,
+        timeToExpire: Math.ceil(ttl / 1000),
+        isBlocked: false,
+        timeToBlockExpire: 0,
+      };
     }
 
     entry.hits += 1;
     const timeToExpire = Math.ceil((entry.expiresAt - now) / 1000);
-    return { totalHits: entry.hits, timeToExpire, isBlocked: false, timeToBlockExpire: 0 };
+    return {
+      totalHits: entry.hits,
+      timeToExpire,
+      isBlocked: false,
+      timeToBlockExpire: 0,
+    };
   }
 }
-

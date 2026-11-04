@@ -56,4 +56,3 @@ function buildTestUrl(baseUrl: string, dbName: string): string {
   url.pathname = `/${dbName}`;
   return url.toString();
 }
-

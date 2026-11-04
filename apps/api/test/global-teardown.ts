@@ -19,13 +19,15 @@ export default async function globalTeardown() {
   await adminClient.connect();
 
   // Force-disconnect tất cả session đang kết nối đến test DB trước khi drop
-  await adminClient.query(`
+  await adminClient.query(
+    `
     SELECT pg_terminate_backend(pid)
     FROM pg_stat_activity
     WHERE datname = $1 AND pid <> pg_backend_pid()
-  `, [dbName]);
+  `,
+    [dbName],
+  );
 
   await adminClient.query(`DROP DATABASE IF EXISTS "${dbName}"`);
   await adminClient.end();
 }
-

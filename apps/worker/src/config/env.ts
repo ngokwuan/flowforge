@@ -2,7 +2,9 @@ import { existsSync } from 'node:fs';
 import { z } from 'zod';
 
 const envSchema = z.object({
-  NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  NODE_ENV: z
+    .enum(['development', 'test', 'production'])
+    .default('development'),
   // Not PORT: the API's .env may already define it.
   WORKER_PORT: z.coerce.number().int().positive().default(4001),
   DATABASE_URL: z.string().url(),

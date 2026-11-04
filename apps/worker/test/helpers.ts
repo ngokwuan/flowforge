@@ -28,11 +28,23 @@ export const approvalFlow = () =>
   wf(
     [
       TRIGGER,
-      ['big', 'logic.if', { left: '{{ trigger.amount }}', operator: 'gt', right: 100 }],
-      ['review', 'logic.if', { left: 'review', operator: 'equals', right: 'review' }],
+      [
+        'big',
+        'logic.if',
+        { left: '{{ trigger.amount }}', operator: 'gt', right: 100 },
+      ],
+      [
+        'review',
+        'logic.if',
+        { left: 'review', operator: 'equals', right: 'review' },
+      ],
       ['auto', 'logic.if', { left: 'auto', operator: 'equals', right: 'auto' }],
     ],
-    [['t', 'big'], ['big', 'review', 'true'], ['big', 'auto', 'false']],
+    [
+      ['t', 'big'],
+      ['big', 'review', 'true'],
+      ['big', 'auto', 'false'],
+    ],
   );
 
 const workspaceIds: string[] = [];
@@ -49,7 +61,11 @@ export async function seedExecution(
   workspaceIds.push(workspace.id);
 
   const workflow = await prisma.workflow.create({
-    data: { workspaceId: workspace.id, name: 'Flow', definition: definition as never },
+    data: {
+      workspaceId: workspace.id,
+      name: 'Flow',
+      definition: definition as never,
+    },
   });
   const execution = await prisma.execution.create({
     data: {
@@ -79,7 +95,8 @@ export async function waitFor<T>(
   for (;;) {
     const value = await read();
     if (done(value)) return value;
-    if (Date.now() > deadline) throw new Error(`Timed out. Last value: ${JSON.stringify(value)}`);
+    if (Date.now() > deadline)
+      throw new Error(`Timed out. Last value: ${JSON.stringify(value)}`);
     await new Promise((resolve) => setTimeout(resolve, 50));
   }
 }
