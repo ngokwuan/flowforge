@@ -1,23 +1,26 @@
+import { jest } from '@jest/globals';
 import { Test, TestingModule } from '@nestjs/testing';
 import { RefreshTokenCleanupService } from './refresh-token-cleanup.service';
 import { PrismaService } from '../prisma/prisma.service';
 
+type Row = { id: string };
+
 describe('RefreshTokenCleanupService', () => {
   let service: RefreshTokenCleanupService;
-  let prisma: { refreshToken: { findMany: jest.Mock; deleteMany: jest.Mock } };
+  let findMany: jest.Mock<(args?: unknown) => Promise<Row[]>>;
+  let deleteMany: jest.Mock<(args?: unknown) => Promise<{ count: number }>>;
 
   beforeEach(async () => {
-    prisma = {
-      refreshToken: {
-        findMany: jest.fn(),
-        deleteMany: jest.fn(),
-      },
-    };
+    findMany = jest.fn<(args?: unknown) => Promise<Row[]>>();
+    deleteMany = jest.fn<(args?: unknown) => Promise<{ count: number }>>();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RefreshTokenCleanupService,
-        { provide: PrismaService, useValue: prisma },
+        {
+          provide: PrismaService,
+          useValue: { refreshToken: { findMany, deleteMany } },
+        },
       ],
     }).compile();
 
@@ -25,42 +28,53 @@ describe('RefreshTokenCleanupService', () => {
   });
 
   it('does nothing when there are no stale tokens', async () => {
-    prisma.refreshToken.findMany.mockResolvedValue([]);
+    findMany.mockResolvedValue([]);
+
     await service.cleanupExpiredTokens();
-    expect(prisma.refreshToken.deleteMany).not.toHaveBeenCalled();
+
+    expect(deleteMany).not.toHaveBeenCalled();
   });
 
-  it('deletes expired and revoked tokens in one batch', async () => {
+  it('deletes the stale tokens it finds, in one batch', async () => {
     const rows = [{ id: 'a' }, { id: 'b' }];
-    prisma.refreshToken.findMany
-      .mockResolvedValueOnce(rows)
-      .mockResolvedValueOnce([]); // second call returns empty → stop
-    prisma.refreshToken.deleteMany.mockResolvedValue({ count: 2 });
+    findMany.mockResolvedValueOnce(rows).mockResolvedValueOnce([]); // second call is empty, so it stops
+    deleteMany.mockResolvedValue({ count: 2 });
 
     await service.cleanupExpiredTokens();
 
-    expect(prisma.refreshToken.deleteMany).toHaveBeenCalledWith({
+    expect(deleteMany).toHaveBeenCalledWith({
       where: { id: { in: ['a', 'b'] } },
     });
   });
 
   it('runs multiple batches until empty', async () => {
-    // Simulate exactly BATCH_SIZE rows in first batch, then 1, then empty
-    const batchSize = (RefreshTokenCleanupService as any).BATCH_SIZE as number;
+    // Exactly BATCH_SIZE rows in the first batch, then 1, then empty.
+    const batchSize = (
+      RefreshTokenCleanupService as unknown as { BATCH_SIZE: number }
+    ).BATCH_SIZE;
     const firstBatch = Array.from({ length: batchSize }, (_, i) => ({
       id: `${i}`,
     }));
     const secondBatch = [{ id: 'last' }];
 
-    prisma.refreshToken.findMany
+    findMany
       .mockResolvedValueOnce(firstBatch)
       .mockResolvedValueOnce(secondBatch)
       .mockResolvedValueOnce([]);
-    prisma.refreshToken.deleteMany.mockResolvedValue({ count: batchSize });
+    deleteMany.mockResolvedValue({ count: batchSize });
 
     await service.cleanupExpiredTokens();
 
-    expect(prisma.refreshToken.findMany).toHaveBeenCalledTimes(3);
-    expect(prisma.refreshToken.deleteMany).toHaveBeenCalledTimes(2);
+    expect(findMany).toHaveBeenCalledTimes(3);
+    expect(deleteMany).toHaveBeenCalledTimes(2);
+  });
+
+  it('only selects tokens past their expiry, so revoked tokens stay for reuse detection', async () => {
+    findMany.mockResolvedValue([]);
+
+    await service.cleanupExpiredTokens();
+
+    const args = findMany.mock.calls[0][0] as { where: unknown };
+    expect(args.where).toEqual({ expiresAt: { lt: expect.any(Date) } });
   });
 });

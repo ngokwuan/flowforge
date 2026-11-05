@@ -28,7 +28,7 @@ JWT alone cannot be revoked before it expires.
 
 - Sessions can be ended server-side, and token theft is detected.
 - An access token stays valid for up to 15 minutes after logout (inherent to JWT).
-- The `RefreshToken` table grows; expired and revoked rows need a cleanup job.
+- The `RefreshToken` table grows; rows past their expiry need a cleanup job (revoked rows are kept until then: they are how reuse is detected).
 - Two tabs refreshing at the same moment can log the user out. The frontend must
   allow only one refresh in flight at a time.
 - Changing `JWT_REFRESH_SECRET` invalidates every session.

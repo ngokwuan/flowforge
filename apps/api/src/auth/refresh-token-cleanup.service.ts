@@ -3,13 +3,13 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from '../prisma/prisma.service';
 
 /**
- * Xóa định kỳ các RefreshToken đã hết hạn hoặc bị thu hồi.
+ * Periodically removes expired refresh tokens.
  *
- * ADR 0002: "The RefreshToken table grows; expired and revoked rows need a
- * cleanup job."
+ * Expired tokens are safe to delete.
+ * Revoked tokens are retained until expiration for reuse detection.
  *
- * Chạy mỗi ngày lúc 3 giờ sáng. Xóa theo từng lô nhỏ để tránh khóa bảng
- * quá lâu khi bảng lớn.
+ * Runs every day at 3 AM.
+ * Deletes records in batches to avoid long-running operations.
  */
 @Injectable()
 export class RefreshTokenCleanupService {
@@ -21,27 +21,37 @@ export class RefreshTokenCleanupService {
   @Cron(CronExpression.EVERY_DAY_AT_3AM)
   async cleanupExpiredTokens(): Promise<void> {
     this.logger.log('Starting RefreshToken cleanup');
+
     const now = new Date();
     let totalDeleted = 0;
 
-    // Delete in batches to avoid long-running transactions
     while (true) {
       const batch = await this.prisma.refreshToken.findMany({
         where: {
-          OR: [{ expiresAt: { lte: now } }, { revokedAt: { not: null } }],
+          expiresAt: {
+            lt: now,
+          },
         },
-        select: { id: true },
+        select: {
+          id: true,
+        },
         take: RefreshTokenCleanupService.BATCH_SIZE,
       });
 
-      if (batch.length === 0) break;
+      // Stop only when no more expired tokens exist.
+      if (batch.length === 0) {
+        break;
+      }
 
       const { count } = await this.prisma.refreshToken.deleteMany({
-        where: { id: { in: batch.map((r) => r.id) } },
+        where: {
+          id: {
+            in: batch.map((token) => token.id),
+          },
+        },
       });
-      totalDeleted += count;
 
-      if (batch.length < RefreshTokenCleanupService.BATCH_SIZE) break;
+      totalDeleted += count;
     }
 
     this.logger.log(`RefreshToken cleanup done – deleted ${totalDeleted} rows`);
