@@ -1,13 +1,16 @@
 # ADR 0002: Short-lived access tokens and rotating refresh tokens
 
 ## Status
+
 Accepted
 
 ## Context
+
 Sessions must be revocable, and a stolen token should be detectable. A stateless
 JWT alone cannot be revoked before it expires.
 
 ## Decision
+
 - **Access token:** JWT (HS256, algorithm pinned on sign and verify), 15 minutes.
   The client keeps it in memory and sends it in the `Authorization` header.
 - **Refresh token:** 32 random bytes, not a JWT. Only its HMAC-SHA256 (keyed with
@@ -22,9 +25,10 @@ JWT alone cannot be revoked before it expires.
   emails) and returns one error for both "unknown email" and "wrong password".
 
 ## Consequences
+
 - Sessions can be ended server-side, and token theft is detected.
 - An access token stays valid for up to 15 minutes after logout (inherent to JWT).
-- The `RefreshToken` table grows; expired and revoked rows need a cleanup job.
+- The `RefreshToken` table grows; rows past their expiry need a cleanup job (revoked rows are kept until then: they are how reuse is detected).
 - Two tabs refreshing at the same moment can log the user out. The frontend must
   allow only one refresh in flight at a time.
 - Changing `JWT_REFRESH_SECRET` invalidates every session.

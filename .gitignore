@@ -14,3 +14,5 @@ coverage
 **/.cursor/
 **/.claude/skills/
 skills-lock.json
+# Prisma client generated for the worker
+apps/worker/src/generated/

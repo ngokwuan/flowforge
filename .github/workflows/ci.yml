@@ -7,6 +7,8 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://flowforge:flowforge@localhost:5433/flowforge
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

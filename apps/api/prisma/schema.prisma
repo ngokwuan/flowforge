@@ -3,6 +3,14 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
+// Same schema, second client: the worker reads and writes the same database.
+// ESM, because the worker is an ES module.
+generator worker {
+  provider     = "prisma-client"
+  output       = "../../worker/src/generated/prisma"
+  moduleFormat = "esm"
+}
+
 datasource db {
   provider = "postgresql"
 }

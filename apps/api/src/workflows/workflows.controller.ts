@@ -31,6 +31,7 @@ import {
 } from '../workspaces/workspace.decorators';
 import type { WorkspaceMembership } from '../workspaces/workspace-roles';
 import { WorkflowsService } from './workflows.service';
+import { WorkflowNodesPipe } from './workflow-nodes.pipe';
 
 // Without @RequireRole a route needs VIEWER. Writes need EDITOR, delete needs OWNER.
 @Controller('workspaces/:workspaceId/workflows')
@@ -52,7 +53,7 @@ export class WorkflowsController {
   create(
     @CurrentUser() user: AuthUser,
     @CurrentMembership() membership: WorkspaceMembership,
-    @Body(new ZodValidationPipe(createWorkflowSchema))
+    @Body(new ZodValidationPipe(createWorkflowSchema), new WorkflowNodesPipe())
     body: CreateWorkflowInput,
   ) {
     return this.workflows.create(membership.workspaceId, user.id, body);
@@ -71,7 +72,7 @@ export class WorkflowsController {
   update(
     @CurrentMembership() membership: WorkspaceMembership,
     @Param('workflowId') workflowId: string,
-    @Body(new ZodValidationPipe(updateWorkflowSchema))
+    @Body(new ZodValidationPipe(updateWorkflowSchema), new WorkflowNodesPipe())
     body: UpdateWorkflowInput,
   ) {
     return this.workflows.update(membership.workspaceId, workflowId, body);

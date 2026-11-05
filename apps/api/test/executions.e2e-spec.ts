@@ -1,15 +1,13 @@
 import '../src/config/load-env.config';
 import { randomUUID } from 'node:crypto';
 import type { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
 import type { Queue } from 'bullmq';
 import request from 'supertest';
 import type { ExecutionJobData } from '@flowforge/shared';
-import { AppModule } from '../src/app.module';
-import { configureApp } from '../src/config/app.config';
 import { ExecutionsService } from '../src/executions/executions.service';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { EXECUTIONS_QUEUE } from '../src/queue/queue.constants';
+import { createTestApp } from './create-test-app';
 
 const DOMAIN = `@${randomUUID()}.flowforge.test`;
 const PASSWORD = 'Sup3rSecret!';
@@ -92,12 +90,7 @@ describe('Executions and queue (e2e)', () => {
   let flowId: string; // a workflow in aliceWs that no test edits
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-    app = moduleRef.createNestApplication();
-    configureApp(app);
-    await app.init();
+    app = await createTestApp();
     prisma = app.get(PrismaService);
     queue = app.get<Queue<ExecutionJobData>>(EXECUTIONS_QUEUE);
     executions = app.get(ExecutionsService);
@@ -161,7 +154,7 @@ describe('Executions and queue (e2e)', () => {
       id: 'extra',
       type: 'http.request',
       name: 'Extra',
-      config: {},
+      config: { url: 'https://example.com/extra' },
     });
     changed.edges.push({ id: 'e2', source: 'call', target: 'extra' });
     await patch(alice, wfUrl(aliceWs, id))

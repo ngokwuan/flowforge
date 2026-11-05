@@ -1,11 +1,9 @@
 import '../src/config/load-env.config';
 import { randomUUID } from 'node:crypto';
 import type { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { AppModule } from '../src/app.module';
-import { configureApp } from '../src/config/app.config';
 import { PrismaService } from '../src/prisma/prisma.service';
+import { createTestApp } from './create-test-app';
 
 const DOMAIN = `@${randomUUID()}.flowforge.test`;
 const PASSWORD = 'Sup3rSecret!';
@@ -24,12 +22,7 @@ describe('Login, refresh, logout, me (e2e)', () => {
   let http: ReturnType<INestApplication['getHttpServer']>;
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-    app = moduleRef.createNestApplication();
-    configureApp(app);
-    await app.init();
+    app = await createTestApp();
     prisma = app.get(PrismaService);
     http = app.getHttpServer();
   });

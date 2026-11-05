@@ -14,6 +14,7 @@ import { WorkspacesModule } from './workspaces/workspaces.module';
 import { WorkflowsModule } from './workflows/workflows.module';
 import { QueueModule } from './queue/queue.module';
 import { ExecutionsModule } from './executions/executions.module';
+import { NodeTypesModule } from './node-types/node-types.module';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -48,6 +49,7 @@ const observeSecret = process.env.OBSERVE_APP_SECRET;
     WorkflowsModule,
     QueueModule,
     ExecutionsModule,
+    NodeTypesModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

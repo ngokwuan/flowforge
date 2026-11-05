@@ -1,11 +1,9 @@
 import '../src/config/load-env.config';
 import { randomUUID } from 'node:crypto';
 import type { INestApplication } from '@nestjs/common';
-import { Test } from '@nestjs/testing';
 import request from 'supertest';
-import { AppModule } from '../src/app.module';
-import { configureApp } from '../src/config/app.config';
 import { PrismaService } from '../src/prisma/prisma.service';
+import { createTestApp } from './create-test-app';
 
 const DOMAIN = `@${randomUUID()}.flowforge.test`;
 const URL = '/api/v1/auth/register';
@@ -16,12 +14,7 @@ describe('POST /auth/register (e2e)', () => {
   let prisma: PrismaService;
 
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-    app = moduleRef.createNestApplication();
-    configureApp(app);
-    await app.init();
+    app = await createTestApp();
     prisma = app.get(PrismaService);
   });
 
