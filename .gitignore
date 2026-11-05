@@ -16,3 +16,5 @@ coverage
 skills-lock.json
 # Prisma client generated for the worker
 apps/worker/src/generated/
+apps/api/src/generated/
+apps/worker/src/generated/
